@@ -1,0 +1,128 @@
+.tickets-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 50px;
+
+  .tickets__header {
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 30px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .logo {
+  }
+
+  .tickets__main-wrapper {
+    display: flex;
+  }
+
+  .aside-filter {
+    display: flex;
+    flex-direction: column;
+    width: 232px;
+    height: 252px;
+    border-radius: 5px 0px 0px 0px;
+    box-shadow: 0 2px 8px 0 rgb(0 0 0 / 10%);
+    background-color: #ffffff;
+  }
+
+  .aside-filter__header {
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    font-family: Open Sans;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 12px;
+    letter-spacing: 0.5px;
+    text-align: left;
+    color: #4a4a4a;
+  }
+
+  .aside-filter__filters {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .aside-filter__label {
+    display: flex;
+    gap: 10px;
+    padding: 10px 20px;
+    font-family: Open Sans;
+    font-size: 13px;
+    line-height: 20px;
+    text-align: left;
+    color: #4a4a4a;
+  }
+
+  .aside-filter__label:hover {
+    background-color: #f1fcff;
+  }
+
+  #all-filter {
+    // margin-right: 10px;
+    // color: #2196F3;
+  }
+
+  .tickets-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-left: 20px;
+  }
+
+  .most-button {
+    padding: 15px;
+    width: 33.333%;
+    font-family: Open Sans;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    text-align: center;
+    color: #4a4a4a;
+    border: 1px solid #dfe5ec;
+    background-color: #ffffff;
+  }
+
+  .most-button:first-child {
+    border-radius: 5px 0 0 5px;
+    border-right: none;
+  }
+
+  .most-button:last-child {
+    border-radius: 0 5px 5px 0;
+    border-left: none;
+  }
+
+  .most-button:hover {
+    color: #ffffff;
+    background-color: #2196f3;
+  }
+
+  .button:active {
+    color: #e6e6e6;
+  }
+
+  .show-more-button {
+    padding: 15px 20px;
+    font-family: Open Sans;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    text-align: center;
+    color: #ffffff;
+    background-color: #2196f3;
+    border-radius: 5px;
+    border-style: none;
+    cursor: pointer;
+  }
+}
