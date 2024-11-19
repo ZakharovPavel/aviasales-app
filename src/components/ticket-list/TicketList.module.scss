@@ -1,7 +1,26 @@
 .tickets-section__list {
   margin: 0;
   padding: 0;
+  width: 500px;
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.button:active {
+  color: #e6e6e6;
+}
+
+.show-more-button {
+  padding: 15px 20px;
+  font-family: Open Sans;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  color: #ffffff;
+  background-color: #2196f3;
+  border-radius: 5px;
+  border-style: none;
+  cursor: pointer;
 }
