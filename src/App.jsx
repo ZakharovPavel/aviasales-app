@@ -5,8 +5,10 @@ import styles from './App.module.scss';
 import TicketList from './components/ticket-list';
 import { Alert, Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTickets, setSorterCheapest, setSorterFastest, setSorterOptimal } from './features/filter/filterSlice';
+import { setSorterCheapest, setSorterFastest, setSorterOptimal } from './features/filter/filterSlice';
 import Filter from './components/filter/Filter';
+import logoImg from './assets/Logo.png'
+import { fetchTickets } from './services/AviasalesService';
 
 function App() {
   const fetchedTickets = useSelector((state) => state.filter.tickets);
@@ -32,7 +34,7 @@ function App() {
   return (
     <div className={styles['tickets-wrapper']}>
       <div className={styles['tickets__header']}>
-        <img className={styles['logo']} src="src\assets\Logo.png" />
+        <img className={styles['logo']} src={logoImg} />
       </div>
       <div className={styles['aside-filter--sm']}>
         <Filter />

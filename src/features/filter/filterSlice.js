@@ -1,12 +1,12 @@
+/* eslint-disable no-unused-vars */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
-const apiBase = 'https://aviasales-test-api.kata.academy';
+import { fetchTickets } from '../../services/AviasalesService';
 
 const filtersIterator = (stateData, filterName) => {
   stateData.filters[filterName] = !stateData.filters[filterName];
   Object.entries(stateData.filters).forEach(([key, value]) => {
     if (!value && stateData.filters.allFilter) stateData.filters.allFilter = false;
-    console.log(`Ключ: ${key}, Значение: ${value}`);
+    // console.log(`Ключ: ${key}, Значение: ${value}`);
   });
   if (
     !stateData.filters.allFilter &&
@@ -67,23 +67,6 @@ const sorterChecker = (stateData) => {
       break;
   }
 };
-
-export const fetchSearchId = createAsyncThunk('filter/fetchSearchId', async function () {
-  const response = await fetch(`${apiBase}/search`);
-  const result = await response.json();
-
-  return result;
-});
-
-export const fetchTickets = createAsyncThunk('filter/fetchTickets', async function () {
-  const responseSearchId = await fetch(`${apiBase}/search`);
-  const resultSearchId = await responseSearchId.json();
-
-  const response = await fetch(`${apiBase}/tickets?searchId=${resultSearchId.searchId}`);
-  const result = await response.json();
-
-  return result.tickets;
-});
 
 export const filterSlice = createSlice({
   name: 'filter',
@@ -206,14 +189,14 @@ export const filterSlice = createSlice({
       .addCase(fetchTickets.pending, (state) => {
         state.status = 'loading';
         state.error = null;
-        console.log('ticket pending step');
+        // console.log('ticket pending step');
       })
       .addCase(fetchTickets.fulfilled, (state, action) => {
         state.status = 'resolved';
         state.ticketsOrigin = action.payload;
         state.ticketsBuff = action.payload;
         state.tickets = action.payload;
-        console.log(state.tickets);
+        // console.log(state.tickets);
       })
       .addCase(fetchTickets.rejected, (state) => {
         state.status = 'error';

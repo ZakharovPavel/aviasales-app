@@ -52,3 +52,87 @@ fieldset {
 .aside-filter__label:hover {
   background-color: #f1fcff;
 }
+
+// input[type='checkbox'] {
+//   width: 20px;
+//   height: 20px;
+//   // color: #2196F3;
+//   border-color: #2196F3;
+//   accent-color: red;
+// }
+
+.custom-checkbox {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.custom-checkbox+label {
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+}
+.custom-checkbox+label::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  border: 1px solid #9ABBCE;
+  border-radius: 2px;
+  // margin-right: 10px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50% 50%;
+}
+
+.custom-checkbox:checked+label::before {
+  border-color: #2196F3;
+  background-color: #FFFFFF;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.28571 8L0 4.16123L1.20857 3.0787L4.28571 5.82726L10.7914 0L12 1.09021L4.28571 8Z' fill='%232196F3'/%3E%3C/svg%3E");
+}
+
+/* стили при наведении курсора на checkbox */
+.custom-checkbox:not(:disabled):not(:checked)+label:hover::before {
+  border-color: #b3d7ff;
+}
+/* стили для активного состояния чекбокса (при нажатии на него) */
+.custom-checkbox:not(:disabled):active+label::before {
+  background-color: #b3d7ff;
+  border-color: #b3d7ff;
+}
+/* стили для чекбокса, находящегося в фокусе */
+.custom-checkbox:focus+label::before {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+/* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
+.custom-checkbox:focus:not(:checked)+label::before {
+  border-color: #80bdff;
+}
+/* стили для чекбокса, находящегося в состоянии disabled */
+.custom-checkbox:disabled+label::before {
+  background-color: #e9ecef;
+}
+
+// .custom-checkbox+label {
+//   display: inline-flex;
+//   align-items: center;
+//   user-select: none;
+// }
+// .custom-checkbox+label::before {
+//   content: '';
+//   display: inline-block;
+//   width: 1em;
+//   height: 1em;
+//   flex-shrink: 0;
+//   flex-grow: 0;
+//   border: 1px solid #9ABBCE;
+//   border-radius: 2px;
+//   margin-right: 10px;
+//   background-repeat: no-repeat;
+//   background-position: center center;
+//   background-size: 50% 50%;
+// }
+
+

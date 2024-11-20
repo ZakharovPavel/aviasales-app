@@ -1,3 +1,23 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
+
+const apiBase = 'https://aviasales-test-api.kata.academy';
+
+const fetchSearchId = createAsyncThunk('filter/fetchSearchId', async function () {
+  const response = await fetch(`${apiBase}/search`);
+  const result = await response.json();
+
+  return result;
+});
+
+const fetchTickets = createAsyncThunk('filter/fetchTickets', async function () {
+  const responseSearchId = await fetch(`${apiBase}/search`);
+  const resultSearchId = await responseSearchId.json();
+
+  const response = await fetch(`${apiBase}/tickets?searchId=${resultSearchId.searchId}`);
+  const result = await response.json();
+
+  return result.tickets;
+});
 
 const transformTicket = (ticket, id) => {
   const [there, back] = ticket.segments;
@@ -18,4 +38,4 @@ const transformTicket = (ticket, id) => {
   };
 };
 
-export { transformTicket };
+export { fetchSearchId, fetchTickets, transformTicket };
