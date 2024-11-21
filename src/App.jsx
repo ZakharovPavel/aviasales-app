@@ -7,18 +7,45 @@ import { Alert, Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSorterCheapest, setSorterFastest, setSorterOptimal } from './features/filter/filterSlice';
 import Filter from './components/filter/Filter';
-import logoImg from './assets/Logo.png'
-import { fetchTickets } from './services/AviasalesService';
+import logoImg from './assets/Logo.png';
+import { fetchSearchId, fetchTickets } from './services/AviasalesService';
 
 function App() {
+  const dispatch = useDispatch();
+  const searchId = useSelector((state) => state.filter.searchId);
   const fetchedTickets = useSelector((state) => state.filter.tickets);
   const filterStatus = useSelector((state) => state.filter.status);
   const sorter = useSelector((state) => state.filter.sorter);
-  const dispatch = useDispatch();
+  const stopFetching = useSelector((state) => state.filter.stop);
+
+  // useEffect(() => {
+  //   // dispatch(fetchTickets());
+  // }, [dispatch]);
+
+  // useEffect(() => {
+  //   // dispatch(fetchTickets(searchId));
+
+  //   // dispatch(fetchSearchId()).then((action) => {
+  //   //   dispatch(fetchTickets(action.payload))
+  //   // })
+  // }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchTickets());
-  }, [dispatch]);
+    dispatch(fetchSearchId());
+    // console.log(searchId);
+  }, []);
+
+  useEffect(() => {
+    // dispatch(fetchTickets(searchId));
+
+    // dispatch(fetchSearchId()).then((action) => {
+    //   dispatch(fetchTickets(action.payload))
+    // })
+    // if (searchId && !stopFetching) {
+    if (searchId && !stopFetching) {
+      dispatch(fetchTickets(searchId));
+    }
+  }, [dispatch, searchId, fetchedTickets, stopFetching]);
 
   const content = filterStatus === 'resolved' ? <TicketList /> : null;
   const spinner = filterStatus === 'loading' ? <Spin size="large" /> : null;

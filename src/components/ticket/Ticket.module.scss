@@ -1,19 +1,26 @@
 $ffOpenSans: 'Open Sans';
 
+ul, li {
+  margin: 0;
+  padding: 0;
+}
+
 .ticket-card {
   width: 502px;
   height: 184px;
   padding: 20px;
+  padding-top: 10px;
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
+  border-radius: 5px;
   box-shadow: 0 2px 8px 0 rgb(0 0 0 / 10%);
   gap: 10px;
 
   &__header {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 10px;
+    align-content: center;
   }
 
   &__price {
@@ -21,13 +28,14 @@ $ffOpenSans: 'Open Sans';
     font-size: 24px;
     font-weight: 600;
     line-height: 24px;
-    text-align: left;
+    align-content: center;
     color: #2196f3;
   }
 
   &__logo {
+    // width: 110px;
     width: 110px;
-    height: 36px;
+    height: 100%;
   }
 
   &__content {

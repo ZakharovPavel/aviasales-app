@@ -72,34 +72,34 @@ function Ticket({
           src={`https://images.daisycon.io/airline/?width=300&height=150&color=ffffff&iata=${carrier}`}
         />
       </div>
-      <div className={styles['ticket-card__content']}>
-        <div className={styles['ticket-card__data-container']}>
+      <ul className={styles['ticket-card__content']}>
+        <li className={styles['ticket-card__data-container']}>
           <span className={styles['ticket-card__data-header']}>{`${thereOrigin} - ${thereDestination}`}</span>
           <span className={styles['ticket-card__data-text']}>{formatDate(thereDate, thereDuration)}</span>
-        </div>
-        <div className={styles['ticket-card__data-container']}>
+        </li>
+        <li className={styles['ticket-card__data-container']}>
           <span className={styles['ticket-card__data-header']}>в пути</span>
           <span className={styles['ticket-card__data-text']}>{formatDuration(thereDuration)}</span>
-        </div>
-        <div className={styles['ticket-card__data-container']}>
+        </li>
+        <li className={styles['ticket-card__data-container']}>
           <span className={styles['ticket-card__data-header']}>{formatStops(thereStops)}</span>
           <span className={styles['ticket-card__data-text']}>{thereStops.join(', ')}</span>
-        </div>
-      </div>
-      <div className={styles['ticket-card__content']}>
-        <div className={styles['ticket-card__data-container']}>
+        </li>
+      </ul>
+      <ul className={styles['ticket-card__content']}>
+        <li className={styles['ticket-card__data-container']}>
           <span className={styles['ticket-card__data-header']}>{`${backOrigin} - ${backDestination}`}</span>
           <span className={styles['ticket-card__data-text']}>{formatDate(backDate, backDuration)}</span>
-        </div>
-        <div className={styles['ticket-card__data-container']}>
+        </li>
+        <li className={styles['ticket-card__data-container']}>
           <span className={styles['ticket-card__data-header']}>в пути</span>
           <span className={styles['ticket-card__data-text']}>{formatDuration(backDuration)}</span>
-        </div>
-        <div className={styles['ticket-card__data-container']}>
+        </li>
+        <li className={styles['ticket-card__data-container']}>
           <span className={styles['ticket-card__data-header']}>{formatStops(backStops)}</span>
           <span className={styles['ticket-card__data-text']}>{backStops.join(', ')}</span>
-        </div>
-      </div>
+        </li>
+      </ul>
     </li>
   );
 }

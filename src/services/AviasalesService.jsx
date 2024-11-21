@@ -6,18 +6,39 @@ const fetchSearchId = createAsyncThunk('filter/fetchSearchId', async function ()
   const response = await fetch(`${apiBase}/search`);
   const result = await response.json();
 
+  return result.searchId;
+});
+
+// const fetchTickets = createAsyncThunk('filter/fetchTickets', async function () {
+//   const responseSearchId = await fetch(`${apiBase}/search`);
+//   const resultSearchId = await responseSearchId.json();
+
+//   const response = await fetch(`${apiBase}/tickets?searchId=${resultSearchId.searchId}`);
+//   const result = await response.json();
+
+//   return result.tickets;
+// });
+
+const fetchTickets = createAsyncThunk('filter/fetchTickets', async function (searchId) {
+  // const responseSearchId = await fetch(`${apiBase}/search`);
+  // const resultSearchId = await responseSearchId.json();
+  // console.log(searchId);
+  
+  const response = await fetch(`${apiBase}/tickets?searchId=${searchId}`);
+  const result = await response.json();
+
   return result;
 });
 
-const fetchTickets = createAsyncThunk('filter/fetchTickets', async function () {
-  const responseSearchId = await fetch(`${apiBase}/search`);
-  const resultSearchId = await responseSearchId.json();
+// const fetchTicketsResult = createAsyncThunk('filter/fetchTickets', async function (searchId) {
+//   // const responseSearchId = await fetch(`${apiBase}/search`);
+//   // const resultSearchId = await responseSearchId.json();
 
-  const response = await fetch(`${apiBase}/tickets?searchId=${resultSearchId.searchId}`);
-  const result = await response.json();
+//   const response = await fetch(`${apiBase}/tickets?searchId=${searchId}`);
+//   const result = await response.json();
 
-  return result.tickets;
-});
+//   return result.tickets;
+// });
 
 const transformTicket = (ticket, id) => {
   const [there, back] = ticket.segments;

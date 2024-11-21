@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchTickets } from '../../services/AviasalesService';
+import { fetchSearchId, fetchTickets } from '../../services/AviasalesService';
 
 const filtersIterator = (stateData, filterName) => {
   stateData.filters[filterName] = !stateData.filters[filterName];
@@ -87,6 +87,7 @@ export const filterSlice = createSlice({
     searchId: null,
     status: null,
     error: null,
+    stop: false,
     listLength: 5,
   },
   reducers: {
@@ -149,6 +150,7 @@ export const filterSlice = createSlice({
       state.listLength += 5;
     },
     setSorterCheapest: (state) => {
+      state.status = 'loading';
       if (state.sorter === 'cheapest') {
         state.sorter = null;
         state.tickets = state.ticketsBuff;
@@ -156,8 +158,10 @@ export const filterSlice = createSlice({
         state.sorter = 'cheapest';
         state.tickets.sort((a, b) => a.price - b.price);
       }
+      state.status = 'resolved';
     },
     setSorterFastest: (state) => {
+      state.status = 'loading';
       if (state.sorter === 'fastest') {
         state.sorter = null;
         state.tickets = state.ticketsBuff;
@@ -167,6 +171,7 @@ export const filterSlice = createSlice({
           (a, b) => a.segments[0].duration + a.segments[1].duration - (b.segments[0].duration + b.segments[1].duration)
         );
       }
+      state.status = 'resolved';
     },
     setSorterOptimal: (state) => {
       if (state.sorter === 'optimal') {
@@ -176,9 +181,9 @@ export const filterSlice = createSlice({
         state.sorter = 'optimal';
         state.tickets.sort(
           (a, b) =>
-            ((a.segments[0].duration +
-            a.segments[1].duration) -
-            (b.segments[0].duration + b.segments[1].duration)) -
+            a.segments[0].duration +
+            a.segments[1].duration -
+            (b.segments[0].duration + b.segments[1].duration) -
             (a.price - b.price)
         );
       }
@@ -186,17 +191,59 @@ export const filterSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTickets.pending, (state) => {
+      .addCase(fetchSearchId.pending, (state) => {
         state.status = 'loading';
+        state.error = null;
+        // console.log('id pending step');
+      })
+      .addCase(fetchSearchId.fulfilled, (state, action) => {
+        // state.status = 'resolved';
+        state.searchId = action.payload;
+        // console.log(state.searchId);
+      })
+      .addCase(fetchSearchId.rejected, (state, action) => {})
+      .addCase(fetchTickets.pending, (state) => {
+        // state.status = 'loading';
         state.error = null;
         // console.log('ticket pending step');
       })
+      // .addCase(fetchTickets.fulfilled, (state, action) => {
+      //   state.status = 'resolved';
+      //   state.ticketsOrigin = action.payload;
+      //   state.ticketsBuff = action.payload;
+      //   state.tickets = action.payload;
+      //   // console.log(state.tickets);
+      // })
+      // .addCase(fetchTickets.fulfilled, (state, action) => {
+      //   console.log(action.payload);
+
+      //   // state.stop = action.payload.stop
+      //   // if (!stop) {
+      //   //   state.status = 'loading';
+      //   // }
+      //   console.log(action.payload.stop);
+
+      //   state.status = 'resolved';
+      //   state.ticketsOrigin = action.payload.tickets;
+      //   state.ticketsBuff = action.payload.tickets;
+      //   state.tickets = action.payload.tickets;
+      //   // console.log(state.tickets);
+      //   // console.log(state.searchId);
+      // })
       .addCase(fetchTickets.fulfilled, (state, action) => {
-        state.status = 'resolved';
-        state.ticketsOrigin = action.payload;
-        state.ticketsBuff = action.payload;
-        state.tickets = action.payload;
-        // console.log(state.tickets);
+        // console.log(action.payload);
+
+        state.stop = action.payload.stop;
+        // state.status = 'resolved';
+        state.ticketsOrigin = [...state.ticketsOrigin, ...action.payload.tickets];
+        state.ticketsBuff = [...state.ticketsBuff, ...action.payload.tickets];
+        state.tickets = [...state.tickets, ...action.payload.tickets];
+
+        // if (stop) {
+        if (action.payload.stop) {
+          state.status = 'resolved';
+          // state.status = 'loading';
+        }
       })
       .addCase(fetchTickets.rejected, (state) => {
         state.status = 'error';
