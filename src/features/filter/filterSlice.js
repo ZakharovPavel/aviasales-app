@@ -150,7 +150,6 @@ export const filterSlice = createSlice({
       state.listLength += 5;
     },
     setSorterCheapest: (state) => {
-      state.status = 'loading';
       if (state.sorter === 'cheapest') {
         state.sorter = null;
         state.tickets = state.ticketsBuff;
@@ -158,10 +157,8 @@ export const filterSlice = createSlice({
         state.sorter = 'cheapest';
         state.tickets.sort((a, b) => a.price - b.price);
       }
-      state.status = 'resolved';
     },
     setSorterFastest: (state) => {
-      state.status = 'loading';
       if (state.sorter === 'fastest') {
         state.sorter = null;
         state.tickets = state.ticketsBuff;
@@ -171,7 +168,6 @@ export const filterSlice = createSlice({
           (a, b) => a.segments[0].duration + a.segments[1].duration - (b.segments[0].duration + b.segments[1].duration)
         );
       }
-      state.status = 'resolved';
     },
     setSorterOptimal: (state) => {
       if (state.sorter === 'optimal') {
@@ -247,6 +243,11 @@ export const filterSlice = createSlice({
       })
       .addCase(fetchTickets.rejected, (state) => {
         state.status = 'error';
+        state.stop = true;
+        // state.status = 'resolved';
+        state.ticketsOrigin = [];
+        state.ticketsBuff = [];
+        state.tickets = [];
       });
   },
 });
