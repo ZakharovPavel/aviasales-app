@@ -209,8 +209,6 @@ export const filterSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchTickets.fulfilled, (state, action) => {
-        console.log(action.payload);
-
         if (Array.isArray(action.payload.tickets)) {
           state.stop = action.payload.stop;
           state.ticketsOrigin = [...state.ticketsOrigin, ...action.payload.tickets];

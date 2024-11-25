@@ -22,7 +22,6 @@ const fetchTicketsForThunk = async (searchId, rejectWithValue) => {
     if (error.status === 500 || error.message === 'Нет запроса') {
       return fetchTicketsForThunk(searchId);
     }
-    console.log('fetch tickets catch');
     return rejectWithValue(error);
   }
 }
