@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { add, format } from 'date-fns';
 import styles from './Ticket.module.scss';
 
-// console.log(styles);
-
 function Ticket({
   price = 0,
   carrier = '',

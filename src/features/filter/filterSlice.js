@@ -1,12 +1,11 @@
 /* eslint-disable no-unused-vars */
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { fetchSearchId, fetchTickets } from '../../services/AviasalesService';
 
 const filtersIterator = (stateData, filterName) => {
   stateData.filters[filterName] = !stateData.filters[filterName];
   Object.entries(stateData.filters).forEach(([key, value]) => {
     if (!value && stateData.filters.allFilter) stateData.filters.allFilter = false;
-    // console.log(`Ключ: ${key}, Значение: ${value}`);
   });
   if (
     !stateData.filters.allFilter &&
@@ -21,8 +20,15 @@ const filtersIterator = (stateData, filterName) => {
 
 const filterTickets = (stateData, filterData) => {
   return stateData.ticketsOrigin.filter((ticket) => {
-    const stopsSum = ticket.segments[0].stops.length + ticket.segments[1].stops.length;
-    return filterData.some((filter) => Number(filter) === stopsSum);
+    // Фильтрация по максимальному значению поля Пересадки в одну сторону, либо обратно
+    const stopsThere = ticket.segments[0].stops.length;
+    const stopsBack = ticket.segments[1].stops.length;
+    const maxStops = Math.max(stopsThere, stopsBack)
+    return filterData.some((filter) => Number(filter) === maxStops);
+    // Альтернативная фильтрация по сумме пересадок туда и обратно
+    // const stopsSum = ticket.segments[0].stops.length + ticket.segments[1].stops.length;
+    // return filterData.some((filter) => Number(filter) === stopsSum);
+    //
   });
 };
 
@@ -96,8 +102,6 @@ export const filterSlice = createSlice({
   },
   reducers: {
     setFilterAll: (state) => {
-      // filtersIterator(state, 'noTransferFilter');
-
       state.value = 'all';
       const newValue = !state.filters.allFilter;
       state.filters = {
@@ -194,76 +198,13 @@ export const filterSlice = createSlice({
       .addCase(fetchSearchId.pending, (state) => {
         state.status = 'loading';
         state.error = null;
-        // console.log('id pending step');
       })
       .addCase(fetchSearchId.fulfilled, (state, action) => {
-        // state.status = 'resolved';
         state.searchId = action.payload;
-        // console.log(state.searchId);
       })
-      .addCase(fetchSearchId.rejected, (state, action) => {})
-      // .addCase(fetchTickets.pending, (state) => {
-      //   // state.status = 'loading';
-      //   state.error = null;
-      //   // console.log('ticket pending step');
-      // })
-      // // .addCase(fetchTickets.fulfilled, (state, action) => {
-      // //   state.status = 'resolved';
-      // //   state.ticketsOrigin = action.payload;
-      // //   state.ticketsBuff = action.payload;
-      // //   state.tickets = action.payload;
-      // //   // console.log(state.tickets);
-      // // })
-      // // .addCase(fetchTickets.fulfilled, (state, action) => {
-      // //   console.log(action.payload);
-
-      // //   // state.stop = action.payload.stop
-      // //   // if (!stop) {
-      // //   //   state.status = 'loading';
-      // //   // }
-      // //   console.log(action.payload.stop);
-
-      // //   state.status = 'resolved';
-      // //   state.ticketsOrigin = action.payload.tickets;
-      // //   state.ticketsBuff = action.payload.tickets;
-      // //   state.tickets = action.payload.tickets;
-      // //   // console.log(state.tickets);
-      // //   // console.log(state.searchId);
-      // // })
-      // .addCase(fetchTickets.fulfilled, (state, action) => {
-      //   console.log(action.payload);
-
-      //   // if (action.payload.stop !== undefined) {
-      //   //   state.stop = action.payload.stop;
-      //   // }
-      //   // state.stop = action.payload.stop;
-      //   // // state.status = 'resolved';
-      //   // state.ticketsOrigin = [...state.ticketsOrigin, ...action.payload.tickets];
-      //   // state.ticketsBuff = [...state.ticketsBuff, ...action.payload.tickets];
-      //   // state.tickets = [...state.tickets, ...action.payload.tickets];
-      //   if (Array.isArray(action.payload.tickets)) {
-      //     state.stop = action.payload.stop;
-      //     state.ticketsOrigin = [...state.ticketsOrigin, ...action.payload.tickets];
-      //     state.ticketsBuff = [...state.ticketsBuff, ...action.payload.tickets];
-      //     state.tickets = [...state.tickets, ...action.payload.tickets];
-      //   }
-
-      //   // if (stop) {
-      //   if (action.payload.stop) {
-      //     state.status = 'resolved';
-      //     // state.status = 'loading';
-      //   }
-      // })
-      // .addCase(fetchTickets.rejected, (state, action) => {
-      //   // state.status = 'error';
-      //   // state.stop = false;
-      //   // state.status = 'resolved';
-      //   // state.ticketsOrigin = [];
-      //   // state.ticketsBuff = [];
-      //   // state.tickets = [];
-      //   // fetchTickets(state.searchId);
-      //   state.errorMessage = action.payload;
-      // });
+      .addCase(fetchSearchId.rejected, (state, action) => {
+        state.errorMessage = action.payload;
+      })
       .addCase(fetchTickets.pending, (state) => {
         state.error = null;
       })

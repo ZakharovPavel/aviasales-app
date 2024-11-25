@@ -18,21 +18,8 @@ function App() {
   const sorter = useSelector((state) => state.filter.sorter);
   const stopFetching = useSelector((state) => state.filter.stop);
 
-  // useEffect(() => {
-  //   // dispatch(fetchTickets());
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   // dispatch(fetchTickets(searchId));
-
-  //   // dispatch(fetchSearchId()).then((action) => {
-  //   //   dispatch(fetchTickets(action.payload))
-  //   // })
-  // }, [dispatch]);
-
   useEffect(() => {
     dispatch(fetchSearchId());
-    // console.log(searchId);
   }, []);
 
   useEffect(() => {
@@ -49,7 +36,7 @@ function App() {
     ) : null;
   const noData =
     fetchedTickets.length === 0 && filterStatus !== 'loading' && filterStatus !== 'error' ? (
-      <div className={styles['no-data-text']}>Ничего не найдено</div>
+      <div className={styles['no-data-text']}>Рейсов, подходящих под заданные фильтры, не найдено</div>
     ) : null;
 
   return (
