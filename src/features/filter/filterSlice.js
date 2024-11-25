@@ -83,10 +83,14 @@ export const filterSlice = createSlice({
     ticketsOrigin: [],
     ticketsBuff: [],
     tickets: [],
+    ticketsSortedCheapest: [],
+    ticketsSortedFastest: [],
+    ticketsSortedOptimal: [],
     sorter: null,
     searchId: null,
     status: null,
     error: null,
+    errorMessage: '',
     stop: false,
     listLength: 5,
   },
@@ -198,56 +202,87 @@ export const filterSlice = createSlice({
         // console.log(state.searchId);
       })
       .addCase(fetchSearchId.rejected, (state, action) => {})
-      .addCase(fetchTickets.pending, (state) => {
-        // state.status = 'loading';
-        state.error = null;
-        // console.log('ticket pending step');
-      })
-      // .addCase(fetchTickets.fulfilled, (state, action) => {
-      //   state.status = 'resolved';
-      //   state.ticketsOrigin = action.payload;
-      //   state.ticketsBuff = action.payload;
-      //   state.tickets = action.payload;
-      //   // console.log(state.tickets);
+      // .addCase(fetchTickets.pending, (state) => {
+      //   // state.status = 'loading';
+      //   state.error = null;
+      //   // console.log('ticket pending step');
       // })
+      // // .addCase(fetchTickets.fulfilled, (state, action) => {
+      // //   state.status = 'resolved';
+      // //   state.ticketsOrigin = action.payload;
+      // //   state.ticketsBuff = action.payload;
+      // //   state.tickets = action.payload;
+      // //   // console.log(state.tickets);
+      // // })
+      // // .addCase(fetchTickets.fulfilled, (state, action) => {
+      // //   console.log(action.payload);
+
+      // //   // state.stop = action.payload.stop
+      // //   // if (!stop) {
+      // //   //   state.status = 'loading';
+      // //   // }
+      // //   console.log(action.payload.stop);
+
+      // //   state.status = 'resolved';
+      // //   state.ticketsOrigin = action.payload.tickets;
+      // //   state.ticketsBuff = action.payload.tickets;
+      // //   state.tickets = action.payload.tickets;
+      // //   // console.log(state.tickets);
+      // //   // console.log(state.searchId);
+      // // })
       // .addCase(fetchTickets.fulfilled, (state, action) => {
       //   console.log(action.payload);
 
-      //   // state.stop = action.payload.stop
-      //   // if (!stop) {
-      //   //   state.status = 'loading';
+      //   // if (action.payload.stop !== undefined) {
+      //   //   state.stop = action.payload.stop;
       //   // }
-      //   console.log(action.payload.stop);
+      //   // state.stop = action.payload.stop;
+      //   // // state.status = 'resolved';
+      //   // state.ticketsOrigin = [...state.ticketsOrigin, ...action.payload.tickets];
+      //   // state.ticketsBuff = [...state.ticketsBuff, ...action.payload.tickets];
+      //   // state.tickets = [...state.tickets, ...action.payload.tickets];
+      //   if (Array.isArray(action.payload.tickets)) {
+      //     state.stop = action.payload.stop;
+      //     state.ticketsOrigin = [...state.ticketsOrigin, ...action.payload.tickets];
+      //     state.ticketsBuff = [...state.ticketsBuff, ...action.payload.tickets];
+      //     state.tickets = [...state.tickets, ...action.payload.tickets];
+      //   }
 
-      //   state.status = 'resolved';
-      //   state.ticketsOrigin = action.payload.tickets;
-      //   state.ticketsBuff = action.payload.tickets;
-      //   state.tickets = action.payload.tickets;
-      //   // console.log(state.tickets);
-      //   // console.log(state.searchId);
+      //   // if (stop) {
+      //   if (action.payload.stop) {
+      //     state.status = 'resolved';
+      //     // state.status = 'loading';
+      //   }
       // })
+      // .addCase(fetchTickets.rejected, (state, action) => {
+      //   // state.status = 'error';
+      //   // state.stop = false;
+      //   // state.status = 'resolved';
+      //   // state.ticketsOrigin = [];
+      //   // state.ticketsBuff = [];
+      //   // state.tickets = [];
+      //   // fetchTickets(state.searchId);
+      //   state.errorMessage = action.payload;
+      // });
+      .addCase(fetchTickets.pending, (state) => {
+        state.error = null;
+      })
       .addCase(fetchTickets.fulfilled, (state, action) => {
-        // console.log(action.payload);
+        console.log(action.payload);
 
-        state.stop = action.payload.stop;
-        // state.status = 'resolved';
-        state.ticketsOrigin = [...state.ticketsOrigin, ...action.payload.tickets];
-        state.ticketsBuff = [...state.ticketsBuff, ...action.payload.tickets];
-        state.tickets = [...state.tickets, ...action.payload.tickets];
+        if (Array.isArray(action.payload.tickets)) {
+          state.stop = action.payload.stop;
+          state.ticketsOrigin = [...state.ticketsOrigin, ...action.payload.tickets];
+          state.ticketsBuff = [...state.ticketsBuff, ...action.payload.tickets];
+          state.tickets = [...state.tickets, ...action.payload.tickets];
+        }
 
-        // if (stop) {
         if (action.payload.stop) {
           state.status = 'resolved';
-          // state.status = 'loading';
         }
       })
-      .addCase(fetchTickets.rejected, (state) => {
-        state.status = 'error';
-        state.stop = true;
-        // state.status = 'resolved';
-        state.ticketsOrigin = [];
-        state.ticketsBuff = [];
-        state.tickets = [];
+      .addCase(fetchTickets.rejected, (state, action) => {
+        state.errorMessage = action.payload;
       });
   },
 });

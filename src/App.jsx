@@ -36,12 +36,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // dispatch(fetchTickets(searchId));
-
-    // dispatch(fetchSearchId()).then((action) => {
-    //   dispatch(fetchTickets(action.payload))
-    // })
-    // if (searchId && !stopFetching) {
     if (searchId && !stopFetching) {
       dispatch(fetchTickets(searchId));
     }
