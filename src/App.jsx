@@ -5,7 +5,7 @@ import styles from './App.module.scss';
 import TicketList from './components/ticket-list';
 import { Alert, Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkFilteredTickets, setSorterCheapest, setSorterFastest, setSorterOptimal } from './features/filter/filterSlice';
+import { checkFilteredTickets, checkSortedTickets, setSorterCheapest, setSorterFastest, setSorterOptimal } from './features/filter/filterSlice';
 import Filter from './components/filter/Filter';
 import logoImg from './assets/Logo.png';
 import { fetchSearchId, fetchTickets } from './services/AviasalesService';
@@ -17,6 +17,7 @@ function App() {
   const filterStatus = useSelector((state) => state.filter.status);
   const sorter = useSelector((state) => state.filter.sorter);
   const stopFetching = useSelector((state) => state.filter.stop);
+  const filterValues = useSelector((state) => state.filter.filters)
 
   useEffect(() => {
     dispatch(fetchSearchId());
@@ -25,19 +26,21 @@ function App() {
   useEffect(() => {
     if (searchId && !stopFetching) {
       dispatch(fetchTickets(searchId));
-      // dispatch(checkFilteredTickets());
     }
-  // }, [dispatch, searchId, fetchedTickets, stopFetching, checkFilteredTickets]);
-}, [dispatch, searchId, fetchedTickets, stopFetching]);
+  }, [dispatch, stopFetching, searchId, fetchedTickets]);
 
+  // изменено для появления списка до окончания загрузки всех билетов
   // const content = filterStatus === 'resolved' ? <TicketList /> : null;
   const spinner = filterStatus === 'loading' ? <Spin size="large" /> : null;
   const errorMessage =
     filterStatus === 'error' ? (
       <Alert className={styles['fetch-error-message']} message="Tickets fetch error" type="error" />
     ) : null;
+
+  const isAllFiltersOff = Object.values(filterValues).every((value) => value === false);
+
   const noData =
-    fetchedTickets.length === 0 && filterStatus !== 'loading' && filterStatus !== 'error' ? (
+    (fetchedTickets.length === 0 && filterStatus !== 'loading' && filterStatus !== 'error') || isAllFiltersOff ? (
       <div className={styles['no-data-text']}>Рейсов, подходящих под заданные фильтры, не найдено</div>
     ) : null;
 

@@ -99,6 +99,7 @@ export const filterSlice = createSlice({
     errorMessage: '',
     stop: false,
     listLength: 5,
+    shownTickets: [],
   },
   reducers: {
     checkFilteredTickets: (state) => {
@@ -107,9 +108,10 @@ export const filterSlice = createSlice({
       sorterChecker(state);
     },
     checkSortedTickets: (state) => {
-      state.tickets = filterTickets(state, state.filterValues);
-      state.ticketsBuff = state.tickets;
       sorterChecker(state);
+    },
+    setShownTickets: (state) => {
+      state.shownTickets = state.tickets.slice(0, state.listLength);
     },
     setFilterAll: (state) => {
       state.value = 'all';
@@ -219,13 +221,17 @@ export const filterSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchTickets.fulfilled, (state, action) => {
+        state.stop = action.payload.stop;
         if (Array.isArray(action.payload.tickets)) {
-          state.stop = action.payload.stop;
           state.ticketsOrigin = [...state.ticketsOrigin, ...action.payload.tickets];
           state.ticketsBuff = [...state.ticketsBuff, ...action.payload.tickets];
           state.tickets = [...state.tickets, ...action.payload.tickets];
         }
-        // state.status = 'resolved';
+        // изменение списка билетов по актуальности фильтров и сортировки
+        state.tickets = filterTickets(state, state.filterValues);
+        state.ticketsBuff = state.tickets;
+        sorterChecker(state);
+
         if (action.payload.stop) {
           state.status = 'resolved';
         }
@@ -239,6 +245,7 @@ export const filterSlice = createSlice({
 export const {
   checkFilteredTickets,
   checkSortedTickets,
+  setShownTickets,
   setFilterAll,
   setFilterNoTransfer,
   setFilterOneTransfer,
