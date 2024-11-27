@@ -5,7 +5,7 @@ import styles from './App.module.scss';
 import TicketList from './components/ticket-list';
 import { Alert, Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSorterCheapest, setSorterFastest, setSorterOptimal } from './features/filter/filterSlice';
+import { checkFilteredTickets, setSorterCheapest, setSorterFastest, setSorterOptimal } from './features/filter/filterSlice';
 import Filter from './components/filter/Filter';
 import logoImg from './assets/Logo.png';
 import { fetchSearchId, fetchTickets } from './services/AviasalesService';
@@ -25,10 +25,12 @@ function App() {
   useEffect(() => {
     if (searchId && !stopFetching) {
       dispatch(fetchTickets(searchId));
+      // dispatch(checkFilteredTickets());
     }
-  }, [dispatch, searchId, fetchedTickets, stopFetching]);
+  // }, [dispatch, searchId, fetchedTickets, stopFetching, checkFilteredTickets]);
+}, [dispatch, searchId, fetchedTickets, stopFetching]);
 
-  const content = filterStatus === 'resolved' ? <TicketList /> : null;
+  // const content = filterStatus === 'resolved' ? <TicketList /> : null;
   const spinner = filterStatus === 'loading' ? <Spin size="large" /> : null;
   const errorMessage =
     filterStatus === 'error' ? (
@@ -79,9 +81,10 @@ function App() {
             </button>
           </div>
           {errorMessage}
-          {noData}
           {spinner}
-          {content}
+          {/* {content} */}
+          <TicketList />
+          {noData}
         </section>
       </div>
     </div>

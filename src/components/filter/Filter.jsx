@@ -82,46 +82,6 @@ const Filter = () => {
           onChange={handleCheckboxChange}
         />
         <label htmlFor='checkbox-three-filter' className={styles['aside-filter__label']}>3 пересадки</label>
-        {/* <label className={styles['aside-filter__label']}>
-          <input className={styles['custom-checkbox']} type="checkbox" name="allFilter" checked={filters.allFilter} onChange={handleAllChange} />
-          Все
-        </label>
-        <label className={styles['aside-filter__label']}>
-          <input className={styles['custom-checkbox']}
-            type="checkbox"
-            name="noTransferFilter"
-            checked={filters.noTransferFilter}
-            onChange={handleCheckboxChange}
-          />
-          Без пересадок
-        </label>
-        <label className={styles['aside-filter__label']}>
-          <input className={styles['custom-checkbox']}
-            type="checkbox"
-            name="oneTransferFilter"
-            checked={filters.oneTransferFilter}
-            onChange={handleCheckboxChange}
-          />
-          1 пересадка
-        </label>
-        <label className={styles['aside-filter__label']}>
-          <input className={styles['custom-checkbox']}
-            type="checkbox"
-            name="twoTransferFilter"
-            checked={filters.twoTransferFilter}
-            onChange={handleCheckboxChange}
-          />
-          2 пересадки
-        </label>
-        <label className={styles['aside-filter__label']}>
-          <input className={styles['custom-checkbox']}
-            type="checkbox"
-            name="threeTransferFilter"
-            checked={filters.threeTransferFilter}
-            onChange={handleCheckboxChange}
-          />
-          3 пересадки
-        </label> */}
       </fieldset>
     </aside>
   );

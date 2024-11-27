@@ -101,6 +101,16 @@ export const filterSlice = createSlice({
     listLength: 5,
   },
   reducers: {
+    checkFilteredTickets: (state) => {
+      state.tickets = filterTickets(state, state.filterValues);
+      state.ticketsBuff = state.tickets;
+      sorterChecker(state);
+    },
+    checkSortedTickets: (state) => {
+      state.tickets = filterTickets(state, state.filterValues);
+      state.ticketsBuff = state.tickets;
+      sorterChecker(state);
+    },
     setFilterAll: (state) => {
       state.value = 'all';
       const newValue = !state.filters.allFilter;
@@ -215,7 +225,7 @@ export const filterSlice = createSlice({
           state.ticketsBuff = [...state.ticketsBuff, ...action.payload.tickets];
           state.tickets = [...state.tickets, ...action.payload.tickets];
         }
-
+        // state.status = 'resolved';
         if (action.payload.stop) {
           state.status = 'resolved';
         }
@@ -227,6 +237,8 @@ export const filterSlice = createSlice({
 });
 
 export const {
+  checkFilteredTickets,
+  checkSortedTickets,
   setFilterAll,
   setFilterNoTransfer,
   setFilterOneTransfer,
