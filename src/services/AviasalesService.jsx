@@ -16,7 +16,6 @@ const fetchTicketsForThunk = async (searchId, rejectWithValue) => {
       throw new Error('Нет запроса');
     }
     const result = await response.json();
-    console.log(result);
     
     return result;
   } catch (error) {
